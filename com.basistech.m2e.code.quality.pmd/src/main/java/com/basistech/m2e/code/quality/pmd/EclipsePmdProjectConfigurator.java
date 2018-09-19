@@ -108,11 +108,14 @@ public class EclipsePmdProjectConfigurator
 		        MavenPluginConfigurationTranslator.newInstance(maven,
 		                session, mavenProjectFacade.getMavenProject(monitor),
 		                pmdGoalExecution, project, monitor);
-
-		this.createOrUpdateEclipsePmdConfiguration(mavenPluginWrapper, project,
-		        pluginCfgTranslator, monitor, session);
-
-		addPMDNature(project, monitor);
+		if (!pluginCfgTranslator.isSkip()) {
+			this.createOrUpdateEclipsePmdConfiguration(mavenPluginWrapper, project,
+			        pluginCfgTranslator, monitor, session);
+	
+			addPMDNature(project, monitor);
+		} else {
+			unconfigureEclipsePlugin(project, monitor);
+		}
 	}
 
 	// private static boolean addPMDNatureHere(final IProject project,

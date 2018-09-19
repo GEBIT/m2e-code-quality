@@ -114,6 +114,10 @@ public class MavenPluginConfigurationTranslator extends AbstractMavenPluginConfi
 		return transformedPatterns;
 	}
 
+	public boolean isSkip() throws CoreException {
+		return getParameterValue("false", Boolean.class, Boolean.FALSE);
+	}
+
 	/**
 	 * Get the {@literal includeTests} element value if present in the
 	 * configuration.
