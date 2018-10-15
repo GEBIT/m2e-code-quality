@@ -15,6 +15,13 @@
 	<packaging>eclipse-repository</packaging>
 	<name>M2Eclipse Code Quality Plugins Update Site</name>
 
+	<properties>
+		<target.site.url>http://m2e-code-quality.github.io/m2e-code-quality/</target.site.url>
+
+		<!-- make sure the composite will list currently built version -->
+		<generate-composite-site.childSites>${target.site.url}/${qualifiedVersion}</generate-composite-site.childSites>
+	</properties>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -52,6 +59,14 @@
 								features or bundles, set this to true -->
 							<removeDefaultCategory>true</removeDefaultCategory>
 						</configuration>
+					</execution>
+					<execution>
+						<id>generate-composite</id>
+						<phase>package</phase>
+						<goals>
+							<!-- execution controlled via project properties ... -->
+							<goal>generate-composite-site</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
