@@ -16,6 +16,8 @@
 	<name>M2Eclipse Code Quality Plugins Update Site</name>
 
 	<properties>
+		<!-- update site url of the site that hosts as defined in ${gitroot}/.travis.yml 
+			under tag 'repo:' -->
 		<target.site.url>http://m2e-code-quality.github.io/m2e-code-quality/</target.site.url>
 
 		<!-- make sure the composite will list currently built version -->
@@ -71,9 +73,9 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<!-- ## NOTE: make sure this is after the repository-utils in the pom.xml
+				<!-- ## NOTE: make sure this is after the repository-utils in the pom.xml 
 					text -->
-				<!-- This textual order will enforce composite and facade to be generated
+				<!-- This textual order will enforce composite and facade to be generated 
 					first -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
@@ -87,20 +89,60 @@
 						</goals>
 						<configuration>
 							<target name="Move content">
-								<!-- Copy repo to ${target}/site/version folder -->
-								<copy
-									todir="${project.build.directory}/site/${qualifiedVersion}/">
-									<fileset dir="${project.build.directory}/repository/" />
-								</copy>
-								<!-- Copy composite content to ${target}/site/ -->
-								<copy todir="${project.build.directory}/site/">
-									<fileset dir="${project.build.directory}/composite/" />
-								</copy>
+								<taskdef resource="net/sf/antcontrib/antlib.xml"
+									classpathref="maven.plugin.classpath" />
+								<if>
+									<matches pattern="^\d+\.\d+\.\d+$"
+										string="${project.version}" />
+									<then>
+										<echo>match stable release</echo>
+										<!-- Copy repo to ${target}/site/version folder -->
+										<copy
+											todir="${project.build.directory}/site/${qualifiedVersion}/">
+											<fileset dir="${project.build.directory}/repository/" />
+										</copy>
+										<!-- Copy composite content to ${target}/site/ -->
+										<copy todir="${project.build.directory}/site/">
+											<fileset dir="${project.build.directory}/composite/" />
+										</copy>
+									</then>
+									<else>
+										<echo>match snapshot release</echo>
+										<!-- Copy repo to ${target}/site/version folder -->
+										<copy
+											todir="${project.build.directory}/site/snapshot/${qualifiedVersion}/">
+											<fileset dir="${project.build.directory}/repository/" />
+										</copy>
+										<!-- Copy composite content to ${target}/site/ -->
+										<copy todir="${project.build.directory}/site/snapshot/">
+											<fileset dir="${project.build.directory}/composite/" />
+										</copy>
+									</else>
+								</if>
 							</target>
 							<exportAntProperties>false</exportAntProperties>
 						</configuration>
 					</execution>
 				</executions>
+
+				<dependencies>
+					<dependency>
+						<groupId>ant-contrib</groupId>
+						<artifactId>ant-contrib</artifactId>
+						<version>1.0b3</version>
+						<exclusions>
+							<exclusion>
+								<groupId>ant</groupId>
+								<artifactId>ant</artifactId>
+							</exclusion>
+						</exclusions>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.ant</groupId>
+						<artifactId>ant-nodeps</artifactId>
+						<version>1.8.1</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
