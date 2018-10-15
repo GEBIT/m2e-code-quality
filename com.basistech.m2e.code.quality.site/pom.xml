@@ -42,7 +42,7 @@
 							<!-- configuration options for the generated HTML page -->
 							<symbols>
 								<update.site.name>M2E Code Quality</update.site.name>
-								<update.site.description>Stable</update.site.description>
+								<update.site.description>Eclipse</update.site.description>
 								<update.site.version>${qualifiedVersion}</update.site.version>
 							</symbols>
 							<!-- this adds repository references to the update site's content.xml -->
@@ -67,6 +67,38 @@
 							<!-- execution controlled via project properties ... -->
 							<goal>generate-composite-site</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!-- ## NOTE: make sure this is after the repository-utils in the pom.xml
+					text -->
+				<!-- This textual order will enforce composite and facade to be generated
+					first -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>copy-repo</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target name="Move content">
+								<!-- Copy repo to ${target}/site/version folder -->
+								<copy
+									todir="${project.build.directory}/site/${qualifiedVersion}/">
+									<fileset dir="${project.build.directory}/repository/" />
+								</copy>
+								<!-- Copy composite content to ${target}/site/ -->
+								<copy todir="${project.build.directory}/site/">
+									<fileset dir="${project.build.directory}/composite/" />
+								</copy>
+							</target>
+							<exportAntProperties>false</exportAntProperties>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
