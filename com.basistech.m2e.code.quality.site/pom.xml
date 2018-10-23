@@ -15,15 +15,6 @@
 	<packaging>eclipse-repository</packaging>
 	<name>M2Eclipse Code Quality Plugins Update Site</name>
 
-	<properties>
-		<!-- update site url of the site that hosts as defined in ${gitroot}/.travis.yml 
-			under tag 'repo:' -->
-		<target.site.url>http://m2e-code-quality.github.io/m2e-code-quality/</target.site.url>
-
-		<!-- make sure the composite will list currently built version -->
-		<generate-composite-site.childSites>${qualifiedVersion}</generate-composite-site.childSites>
-	</properties>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -62,14 +53,6 @@
 							<removeDefaultCategory>true</removeDefaultCategory>
 						</configuration>
 					</execution>
-					<execution>
-						<id>generate-composite</id>
-						<phase>package</phase>
-						<goals>
-							<!-- execution controlled via project properties ... -->
-							<goal>generate-composite-site</goal>
-						</goals>
-					</execution>
 				</executions>
 			</plugin>
 			<plugin>
@@ -101,10 +84,6 @@
 											todir="${project.build.directory}/site/${qualifiedVersion}/">
 											<fileset dir="${project.build.directory}/repository/" />
 										</copy>
-										<!-- Copy composite content to ${target}/site/ -->
-										<copy todir="${project.build.directory}/site/">
-											<fileset dir="${project.build.directory}/composite/" />
-										</copy>
 									</then>
 									<else>
 										<echo>match snapshot release</echo>
@@ -112,10 +91,6 @@
 										<copy
 											todir="${project.build.directory}/site/snapshot/${qualifiedVersion}/">
 											<fileset dir="${project.build.directory}/repository/" />
-										</copy>
-										<!-- Copy composite content to ${target}/site/ -->
-										<copy todir="${project.build.directory}/site/snapshot/">
-											<fileset dir="${project.build.directory}/composite/" />
 										</copy>
 									</else>
 								</if>
