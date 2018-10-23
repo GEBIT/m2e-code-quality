@@ -1,5 +1,8 @@
 #!/bin/bash -eu
 
+GIT_ROOT_DIR=$(cd `dirname $0` && echo `git rev-parse --show-toplevel`)
+OLD_RELEASES_FILE=${GIT_ROOT_DIR}/tools/old_releases.list
+
 CURRENT_SITE_FOLDER=current-site
 SITE_GITHUB_REPO=antoine-morvan/m2e-code-quality-p2-site
 SITE_GITHUB_BRANCH=gh-pages
@@ -52,8 +55,9 @@ git clone https://github.com/${SITE_GITHUB_REPO}.git -b ${SITE_GITHUB_BRANCH} ${
 ## -- integrate (copy) new version to the site
 cp -R ${NEW_SITE_FOLDER}/* ${CURRENT_SITE_FOLDER}/
 ## -- regenerate composite meta data
-STABLE_RELEASES=$(find ${CURRENT_SITE_FOLDER}/* -maxdepth 1 -type d -name "[0-9]\.[0-9].[0-9]" -printf '%f')
-SNAPSHOT_RELEASES=$(find ${CURRENT_SITE_FOLDER}/snapshot* -maxdepth 1 -type d -name "[0-9]\.[0-9]\.[0-9]\.*" -printf '%f')
+STABLE_RELEASES="$(cat ${OLD_RELEASES_FILE}) $(find ${CURRENT_SITE_FOLDER}/* -maxdepth 1 -type d -name "[0-9]\.[0-9].[0-9]" -printf '%f\n')"
+SNAPSHOT_RELEASES=$(find ${CURRENT_SITE_FOLDER}/snapshot* -maxdepth 1 -type d -name "[0-9]\.[0-9]\.[0-9]\.*" -printf '%f\n')
+
 regenCompositeMetadata "${STABLE_RELEASES}" "${CURRENT_SITE_FOLDER}/"
 regenCompositeMetadata "${SNAPSHOT_RELEASES}" "${CURRENT_SITE_FOLDER}/snapshot"
 
