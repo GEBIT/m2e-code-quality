@@ -21,7 +21,7 @@
 		<target.site.url>http://m2e-code-quality.github.io/m2e-code-quality/</target.site.url>
 
 		<!-- make sure the composite will list currently built version -->
-		<generate-composite-site.childSites>${target.site.url}/${qualifiedVersion}</generate-composite-site.childSites>
+		<generate-composite-site.childSites>${qualifiedVersion}</generate-composite-site.childSites>
 	</properties>
 
 	<build>
