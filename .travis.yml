@@ -4,6 +4,10 @@ sudo: false
 script:
   - xvfb-run mvn --batch-mode clean verify 
 
+before_install: ./tools/update_version.sh ${TRAVIS_TAG}
+  on:
+  - tags: true
+
 install: true
 
 cache:
@@ -25,3 +29,7 @@ deploy:
   target_branch: gh-pages
   on:
     branch: deploy
+
+after_success: ./tools/increment_version.sh ${TRAVIS_TAG}
+  on:
+  - tags: true
