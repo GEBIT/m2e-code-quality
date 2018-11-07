@@ -7,7 +7,7 @@ CURRENT_SITE_FOLDER=current-site
 SITE_GITHUB_REPO=GEBIT/m2e-code-quality-p2-site
 SITE_GITHUB_BRANCH=gh-pages
 
-NEW_SITE_FOLDER=com.basistech.m2e.code.quality.site/target/site/
+NEW_SITE_FOLDER=com.basistech.m2e.code.quality.site/target/repository/
 
 SITE_NAME="M2E Code Quality - Eclipse Update Site"
 
