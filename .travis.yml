@@ -1,6 +1,11 @@
 language: java
 sudo: false
 
+branches:
+  only:
+  - deploy
+  - /^\d+\.\d+\.\d+$/
+
 script:
   - xvfb-run mvn --batch-mode clean verify 
 
