@@ -55,9 +55,9 @@ git clone https://github.com/${SITE_GITHUB_REPO}.git -b ${SITE_GITHUB_BRANCH} ${
 
 ## -- integrate (copy) new version to the site
 if [ ! -z "$TRAVIS_TAG" ]; then
-  cp -R ${NEW_SITE_FOLDER}/* ${CURRENT_SITE_FOLDER}/${TRAVIS_TAG}
+  mkdir ${CURRENT_SITE_FOLDER}/${TRAVIS_TAG} && cp -R ${NEW_SITE_FOLDER}/* ${CURRENT_SITE_FOLDER}/${TRAVIS_TAG}/
 else
-  rm -rf ${CURRENT_SITE_FOLDER}/snapshot && cp -R ${NEW_SITE_FOLDER}/* ${CURRENT_SITE_FOLDER}/snapshot;
+  rm -rf ${CURRENT_SITE_FOLDER}/snapshot && mkdir ${CURRENT_SITE_FOLDER}/snapshot && cp -R ${NEW_SITE_FOLDER}/* ${CURRENT_SITE_FOLDER}/snapshot/
 fi
 
 ## -- regenerate composite meta data
