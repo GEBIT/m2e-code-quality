@@ -28,7 +28,6 @@ deploy:
   target_branch: gh-pages
   on:
     branch: deploy
-    tags: true
 
 after_deploy: 
 - if [ -z "$TRAVIS_TAG" ]; then ./tools/increment_version.sh $TRAVIS_TAG; fi
