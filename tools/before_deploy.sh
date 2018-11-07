@@ -4,7 +4,7 @@ GIT_ROOT_DIR=$(cd `dirname $0` && echo `git rev-parse --show-toplevel`)
 OLD_RELEASES_FILE=${GIT_ROOT_DIR}/tools/old_releases.list
 
 CURRENT_SITE_FOLDER=current-site
-SITE_GITHUB_REPO=antoine-morvan/m2e-code-quality-p2-site
+SITE_GITHUB_REPO=GEBIT/m2e-code-quality-p2-site
 SITE_GITHUB_BRANCH=gh-pages
 
 NEW_SITE_FOLDER=com.basistech.m2e.code.quality.site/target/site/

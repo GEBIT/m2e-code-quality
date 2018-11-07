@@ -21,7 +21,7 @@ deploy:
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
   local_dir: current-site
-  repo: m2e-code-quality/m2e-code-quality-p2-site
+  repo: GEBIT/m2e-code-quality-p2-site
   target_branch: gh-pages
   on:
-    branch: develop
+    branch: deploy
