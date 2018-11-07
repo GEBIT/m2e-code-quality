@@ -4,9 +4,8 @@ sudo: false
 script:
   - xvfb-run mvn --batch-mode clean verify 
 
-before_install: ./tools/update_version.sh ${TRAVIS_TAG}
-  on:
-  - tags: true
+before_install: 
+- if [ ! -z "$TRAVIS_TAG" ]; then ./tools/update_version.sh $TRAVIS_TAG; fi
 
 install: true
 
@@ -31,6 +30,5 @@ deploy:
     branch: deploy
     tags: true
 
-after_deploy: ./tools/increment_version.sh ${TRAVIS_TAG}
-  on:
-  - tags: true
+after_deploy: 
+- if [ -z "$TRAVIS_TAG" ]; then ./tools/increment_version.sh $TRAVIS_TAG; fi
