@@ -5,7 +5,7 @@
 GITHUB_BRANCH=deploy
 
 DIR=$(cd `dirname $0` && echo `git rev-parse --show-toplevel`)
-NEW_VERSION=$(echo $1 | awk 'BEGIN { FS=":" } { $3++; } { printf "%d.%d.%d\n", $1, $2, $3 }')-SNAPSHOT
+NEW_VERSION=$(echo $1 | awk 'BEGIN { FS="." } { $3++; } { printf "%d.%d.%d\n", $1, $2, $3 }')-SNAPSHOT
 
 cd $DIR
 
@@ -24,7 +24,7 @@ A=$(git rev-parse --verify HEAD)
 B=$(git rev-parse --verify origin/$GITHUB_BRANCH)
 
 echo "Comparing $A to $B on $GITHUB_BRANCH"
-if [ "$A" -ne "$B" ]; then exit 0; fi
+if [ "$A" != "$B" ]; then exit 0; fi
 
 # checkout branch
 git checkout $GITHUB_BRANCH
