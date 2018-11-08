@@ -26,13 +26,20 @@ before_deploy: ./tools/before_deploy.sh
 # see https://github.com/m2e-code-quality/m2e-code-quality/issues/123
 deploy:
   provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
-  local_dir: current-site
-  repo: GEBIT/m2e-code-quality-p2-site
-  target_branch: gh-pages
-  on:
-    branch: deploy
-
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN
+    local_dir: current-site
+    repo: GEBIT/m2e-code-quality-p2-site
+    target_branch: gh-pages
+    on:
+      branch: deploy
+  provider: releases
+    api_key:
+      secure: $GITHUB_TOKEN
+    file_glob: true
+    file: com.basistech.m2e.code.quality.site/target/com.basistech.m2e.code.quality.site-*.zip
+    skip_cleanup: true
+    on:
+      tags: true
 after_deploy: 
 - if [ -n "$TRAVIS_TAG" ]; then ./tools/increment_version.sh $TRAVIS_TAG; fi
