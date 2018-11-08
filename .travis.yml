@@ -32,7 +32,7 @@ deploy:
     repo: GEBIT/m2e-code-quality-p2-site
     target_branch: gh-pages
     on:
-      branch: deploy
+      condition: $TRAVIS_BRANCH == "deploy" || -n $TRAVIS_TAG
   provider: releases
     api_key:
       secure: $GITHUB_TOKEN
