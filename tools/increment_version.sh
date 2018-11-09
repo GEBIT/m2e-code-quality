@@ -2,8 +2,6 @@
 
 [ "$#" -ne "1" ] && echo "usage: $0 <current version>" && exit 1
 
-GITHUB_BRANCH=deploy
-
 DIR=$(cd `dirname $0` && echo `git rev-parse --show-toplevel`)
 NEW_VERSION=$(echo $1 | awk 'BEGIN { FS="." } { $3++; } { printf "%d.%d.%d\n", $1, $2, $3 }')-SNAPSHOT
 
@@ -20,20 +18,17 @@ git reset --hard
 echo "config upstream"
 git remote set-url origin https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git
 
-echo "fetching"
-git fetch origin "+refs/heads/$GITHUB_BRANCH:refs/remotes/origin/$GITHUB_BRANCH"
-
 # verify same commit as branch
-A=$(git rev-parse --verify HEAD)
-echo "Current commit is $A, now checking origin/$GITHUB_BRANCH"
+HEAD=$(git rev-parse --verify HEAD)
+echo "Current commit is $HEAD, determining branch"
+GITHUB_BRANCH=$(git ls-remote -q --refs | grep $HEAD | awk '{print $2}' | sed -e 's/^refs\/heads\///')
 
-B=$(git rev-parse --verify origin/$GITHUB_BRANCH)
-
-echo "Comparing $A to $B on $GITHUB_BRANCH"
-if [ "$A" != "$B" ]; then exit 0; fi
+C=$(echo $GITHUB_BRANCH | wc -w)
+if [ "$C" -ne "1" ]; then echo "Tag cannot be resolved to branch name" && exit 1; fi
 
 # checkout branch
 echo "checkout $GITHUB_BRANCH"
+git fetch origin "+refs/heads/$GITHUB_BRANCH:refs/remotes/origin/$GITHUB_BRANCH"
 git checkout -B $GITHUB_BRANCH
 
 # increment version
