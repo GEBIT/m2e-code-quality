@@ -21,11 +21,11 @@ echo "config upstream"
 git remote set-url origin https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git
 
 echo "fetching"
-git fetch 
+git fetch origin "+refs/heads/$GITHUB_BRANCH:refs/remotes/origin/$GITHUB_BRANCH"
 
 # verify same commit as branch
 A=$(git rev-parse --verify HEAD)
-echo "Current commit is $A"
+echo "Current commit is $A, now checking origin/$GITHUB_BRANCH"
 
 B=$(git rev-parse --verify origin/$GITHUB_BRANCH)
 
