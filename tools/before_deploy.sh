@@ -64,3 +64,5 @@ STABLE_RELEASES="$(cat ${OLD_RELEASES_FILE}) $(find ${CURRENT_SITE_FOLDER}/* -ma
 SNAPSHOT_RELEASES=$(find ${CURRENT_SITE_FOLDER}/snapshot* -maxdepth 1 -type d -name "[0-9]\.[0-9]\.[0-9]\.*" -printf '%f\n')
 
 regenCompositeMetadata "${STABLE_RELEASES}" "${CURRENT_SITE_FOLDER}/"
+
+
