@@ -34,7 +34,7 @@ if [ "$A" != "$B" ]; then exit 0; fi
 
 # checkout branch
 echo "checkout $GITHUB_BRANCH"
-git checkout $GITHUB_BRANCH
+git checkout -B $GITHUB_BRANCH
 
 # increment version
 echo changing version to $NEW_VERSION
